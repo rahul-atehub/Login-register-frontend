@@ -17,7 +17,7 @@ function Dashboard() {
   useEffect(() => {
     // Check if user is logged in
     const userData = JSON.parse(
-      localStorage.getItem("user") || sessionStorage.getItem("user")
+      sessionStorage.getItem("user") || localStorage.getItem("user")
     );
     if (!userData) {
       navigate("/signin");
