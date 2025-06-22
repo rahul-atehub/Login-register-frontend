@@ -29,16 +29,29 @@ function Dashboard() {
   const handleLogout = async () => {
     try {
       setIsLoading(true);
-      await axios.post("/api/auth/logout");
 
-      // Clear stored tokens
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("user");
-      sessionStorage.removeItem("authToken");
-      sessionStorage.removeItem("user");
+      // ✅ Grab tokens from storage (safe for guest & logged-in users)
+      const token =
+        sessionStorage.getItem("authToken") ||
+        localStorage.getItem("authToken");
+      const refreshToken =
+        sessionStorage.getItem("refreshToken") ||
+        localStorage.getItem("refreshToken");
 
-      // Clear axios default header
+      // ✅ Send logout request with Authorization + refreshToken
+      await axios.post(
+        "/api/auth/logout",
+        { refreshToken },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // ✅ Clear all user-related data
+      sessionStorage.clear();
+      localStorage.clear();
       delete axios.defaults.headers.common["Authorization"];
 
       navigate("/signin");
