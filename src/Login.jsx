@@ -126,10 +126,8 @@ function Login() {
 
       setMessage("🎉 Logged in as Guest!");
 
-      // Optional: redirect after short delay
-      // setTimeout(() => {
-      //   navigate("/dashboard");
-      // }, 1000);
+      // Redirect to dashboard after successful guest login
+      navigate("/dashboard");
     } catch (error) {
       console.error("Guest login error:", error);
       setMessage("❌ Failed to login as guest. Please try again.");
